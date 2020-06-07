@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\snippets-master"
+		},
+		{
+			"path": "..\\yolobot-firebase"
+		}
+	],
+	"settings": {}
+}
