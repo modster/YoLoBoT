@@ -14,7 +14,11 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "rewrites": [ {
+      "source": "/btc",
+      "function": "btc"
+    } ]
   },
   "emulators": {
     "functions": {
