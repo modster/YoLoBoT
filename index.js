@@ -55,26 +55,7 @@ app.post('/', function (req, res, next) {
   
   let ticker = body.ticker;
   if( body.direction == 'buy' ) {
-    let y = parseFloat(req.btcUsdtPrice);
-    let x = parseFloat(req.usdtBalance).toFixed(2);
-    let price = parseFloat(body.price);
-    let stopPrice = parseFloat(body.stop);
-    let quantity = x/y * 1000;
-    quantity = Math.floor(quantity).toFixed(8);
-    quantity = quantity / 1000;
-    console.log(`Price : ${price}  Stop: ${stopPrice}  Quantity: ${quantity}  Ticker: ${ticker}`)
-    if(quantity >= min) {
-      console.log(`Buy: ${quantity} BTC`);
-      binance.marketBuy('BTCUSDT', quantity);
-      /*binance.buy("BTCUSDT", quantity, price, {stopPrice: stopPrice, type: type});
-      binance.marketBuy("BTCUSDT", quantity, (error, response) => {
-        // if(error) => console.log(error); 
-        console.info("Market Buy response", response);
-        console.info("order id: " + response.orderId);
 
-      }
-      */
-    }
   }
   else if( body.direction == 'sell' ) {
     let min = 0.0016
