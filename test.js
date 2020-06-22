@@ -1,13 +1,14 @@
-/* W O R K I N G  T I T L E 
+/* 'LILBOT
  * TradingView charts and indicators are the best. I prefer them to Binance's 
- * charts, so I made a bot that uses TradingView indicators, strategies, and
- * alerts. It's simple enough that even a javascript novice can start using 
- * it right away. Working Title was designed to be used as a base for other 
- * projects.
+ * charts, so I made a bot that trades on Binance's exchange useing
+ * TradingView indicators, strategies, and alerts. It's simple enough that even
+ * a javascript novice can start using it right away. 'LILBOT was designed to 
+ * be used as a base for other projects.
  * 
- * Working Title makes extensive use of Jon Eryck's Node-Binance-API project
- * which can be found here: https://github.com/jaggedsoft/node-binance-api
- * Thanks Jon!
+ * This version of 'LILBOT makes extensive use of Jon Eryck's Node-Binance-API 
+ * project which can be found here: 
+ * https://github.com/jaggedsoft/node-binance-api
+ * 
  *****************************************************************************/
 const Binance = require( 'node-binance-api' );
 const http = require('http');
@@ -30,7 +31,6 @@ const symbol = 'BTCUSDT';
 const quantity = 0.0016;
 const hostname = '127.0.0.1';
 const port = 80;
-const bal = {};
 
 // Are we in test mode?
 console.log ("Test Mode: ", binance.getOption('test'));
@@ -43,13 +43,7 @@ eventEmitter.on('error', (err) => {
 })
 
 eventEmitter.on('buy', () => {
-  
-  binance.balance((error, balances) => {
-    if ( error ) return console.error(error);
-    if ( balances.USDT.available > quantity ) {
-      binance.marketBuy(symbol, quantity);
-    }
-  }) // binance.balance
+  binance.marketBuy(symbol, quantity);
 }) // eventemitter.on('buy')
 
 eventEmitter.on('sell', () => {

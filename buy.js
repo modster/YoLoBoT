@@ -61,3 +61,4 @@ async function buy() {
     }
   }
 };
+buy();
