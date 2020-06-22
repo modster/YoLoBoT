@@ -27,46 +27,39 @@ const binance = new Binance().options({
 });
 
 const symbol = 'BTCUSDT';
-const min = 0.0016;
+const quantity = 0.0016;
 const hostname = '127.0.0.1';
 const port = 80;
+const bal = {};
 
 // Are we in test mode?
 console.log ("Test Mode: ", binance.getOption('test'));
 
+// E v e n t  E m i t t e r s
 var eventEmitter = new events.EventEmitter();
 
 eventEmitter.on('error', (err) => {
   console.error(err);
 })
 
-eventEmitter.on('bal', () => {
-
+eventEmitter.on('buy', () => {
+  
   binance.balance((error, balances) => {
     if ( error ) return console.error(error);
-    const usdtBal = balances.USDT.available;
-    console.log(usdtBal);
+    if ( balances.USDT.available > quantity ) {
+      binance.marketBuy(symbol, quantity);
+    }
   }) // binance.balance
-}) // eventemitter.on('bal')
-
-eventEmitter.on('buy', () => {
-  binance.marketBuy(symbol, min);
 }) // eventemitter.on('buy')
 
 eventEmitter.on('sell', () => {
-
   binance.balance((error, balances) => {
     if ( error ) return console.error(error);
-    
     if ( balances.BTC.available > quantity ) {
       binance.marketSell(symbol, quantity);
     }
-  
-    else {
-      
-      binance.marketSell(symbol, balances.BTC.available);
-    }
-    console.log(balances.BTC.available);
+    //console.log(`BTC Balance : ${balances.BTC.available}`);
+    //console.log(`USDT Balance : ${balances.USDT.available}`);
   }) // binance.balance
 }) // end eventemitter.on('sell')
 
@@ -78,7 +71,6 @@ eventEmitter.on('stop', () => {
 
     if( balances.BTC.available > 0) {
       btcBalance = parseFloat(balances.BTC.available);
-      console.log(btcBalance);
       binance.marketSell(symbol, btcBalance);
     }
   }) // binance.balance
@@ -94,9 +86,7 @@ const server = http.createServer((req, res) => {
     body.push(chunk);
   }).on('end', () => {
     body = Buffer.concat(body).toString();
-    if(body === 'bal') { 
-      eventEmitter.emit('bal'); // <----------------------- BAL
-    } 
+
     if(body === 'buy') { 
       eventEmitter.emit('buy'); // <----------------------- BUY
     } 
@@ -106,11 +96,13 @@ const server = http.createServer((req, res) => {
     }
     
     if(body === 'stop') {
-      eventEmitter.emit('stop'); // <---------------------- SELL
+      eventEmitter.emit('stop'); // <---------------------- STOP
     }
-    console.log(body);
     res.statusCode = 200;
     res.end();
+    console.log(body);
+    console.log(`BTC Balance : ${balances.BTC.available}`);
+    console.log(`USDT Balance : ${balances.USDT.available}`);
     }
   )}
 );
