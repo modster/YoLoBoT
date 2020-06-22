@@ -1,0 +1,27 @@
+{
+  "name": "YoLoBoT",
+  "version": "1.0.0",
+  "description": "",
+  "main": "binance-node-api-express.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modster/YoLoBoT.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/modster/YoLoBoT/issues"
+  },
+  "homepage": "https://github.com/modster/YoLoBoT#readme",
+  "dependencies": {
+    "ccxt": "^1.30.31",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "node-binance-api": "^0.11.7",
+    "nodemon": "^2.0.4"
+  }
+}
