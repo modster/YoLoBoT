@@ -43,19 +43,13 @@ eventEmitter.on('error', (err) => {
 })
 
 eventEmitter.on('buy', () => {
-  binance.marketBuy(symbol, quantity);
-}) // eventemitter.on('buy')
+  binance.marketBuy(symbol, quantity)
+})
 
+// S E L L
 eventEmitter.on('sell', () => {
-  binance.balance((error, balances) => {
-    if ( error ) return console.error(error);
-    if ( balances.BTC.available > quantity ) {
-      binance.marketSell(symbol, quantity);
-    }
-    //console.log(`BTC Balance : ${balances.BTC.available}`);
-    //console.log(`USDT Balance : ${balances.USDT.available}`);
-  }) // binance.balance
-}) // end eventemitter.on('sell')
+  binance.marketSell(symbol, quantity);
+})
 
 //  S T O P
 eventEmitter.on('stop', () => {
@@ -63,14 +57,14 @@ eventEmitter.on('stop', () => {
   binance.balance((error, balances) => {
     if ( error ) return console.error(error);
 
-    if( balances.BTC.available > 0) {
+    if( balances.BTC.available > quantity) {
       btcBalance = parseFloat(balances.BTC.available);
       binance.marketSell(symbol, btcBalance);
     }
-  }) // binance.balance
-  
-}) // end eventemitter.on('stop')
+  })
+})
 
+// H T T P  S E R V E R
 const server = http.createServer((req, res) => {
   //const { headers, method, url } = req;
   let body = [];
@@ -95,12 +89,11 @@ const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.end();
     console.log(body);
-    console.log(`BTC Balance : ${balances.BTC.available}`);
-    console.log(`USDT Balance : ${balances.USDT.available}`);
     }
   )}
 );
 
+// L I S T E N E R 
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
