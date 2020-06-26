@@ -42,10 +42,6 @@ eventEmitter.on('error', (err) => {
   console.error(err);
 })
 
-eventEmitter.on('buy', () => {
-  binance.marketBuy(symbol, quantity)
-})
-
 // S E L L
 eventEmitter.on('sell', () => {
   binance.marketSell(symbol, quantity);
@@ -76,7 +72,7 @@ const server = http.createServer((req, res) => {
     body = Buffer.concat(body).toString();
 
     if(body === 'buy') { 
-      eventEmitter.emit('buy'); // <----------------------- BUY
+      binance.marketBuy(symbol, quantity) // <----------------------- BUY
     } 
     
     if(body === 'sell') {
